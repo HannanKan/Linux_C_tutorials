@@ -220,6 +220,47 @@ int fseek(FILE* STREAM, long int offset, int whence);
 //对应lseek(),成功返回0，失败返回-1，失败时设置errno指出错误
 ```
 
+### fgetc(), getc(),getchar()
+```c
+#include<stdio.h>
+//下面两个函数用处相同
+//从文件流读出下一个字符并返回， 如果到达文件结尾或者发生错误，返回EOF，需要通过ferror 或者 feof来区分
+int fgetc(FILE* stream);
+int getc(FILE* STREAM);
+//从标准输入中读取一个字符并返回
+int getchar();
+
+```
+### fputc() putc() putchar()
+```c
+#include<stdio.h>
+// 以下两个函数功能相同，把一个字符写入到文件流，如果失败，返回EOF
+int fputc(int c ,FILE* STREAM);
+int putc(int c, FILE* stream);
+//将字符输出到标准输出
+int putchar(int c)
+```
+
+### fgets() 和 gets()函数
+```c
+#include<stdio.h>
+char* fgets(char* s,int n,FILE*stream);
+char* gets(char*s);
+```
+char* fgets(char*s,int n,FILE\* stream);
+把从文件中读到的字符写到s指向的字符串中，，直到遇到以下情况之一：
+1. 遇到换行符
+2. 已经传递了n-1个字符
+3. 达到文件尾部
+fgets()会把换行符也放到s中，再加上一个\0,一次最多传递n-1个字符
+返回s指针，如果stream读到文件结尾，或者遇到错误，返回EOF，遇到错误时候，会设置errno
+
+gets() 从标准输入读取，放到s中，丢弃遇到的换行符，在接收到的字符串后面加\0
+> 由于gets() 对输入的长度没有限制，因此可能存在缓冲区溢出的问题
+
+
+## 格式化输入和输出
+
 
 ```c
 printf("如果对您有用，欢迎随手点个赞");
