@@ -1,4 +1,7 @@
 # Shell Programming
+## 代码请看过来
+[github欢迎点个 star](https://github.com/HannanKan/Linux_C_tutorials/tree/master/chapter2shellProgramming)
+
 ## What is shell
 用户与Linux 系统间接口的程序，允许用户向操作系统输入需要执行的命令
 
@@ -473,3 +476,7 @@ done
 
 
 ## dialog(ubuntu 中等价的使用 gdialog)
+
+```c
+printf("如果对您有用，欢迎随手点个赞");
+```

@@ -1,4 +1,7 @@
 # chapter 3 linux 文件系统
+### 代码请看过来
+[github欢迎点个 star](https://github.com/HannanKan/Linux_C_tutorials/tree/master/chapter3LinuxFileSytem)
+
 ## 文件结构
 1. 5大基本函数：open close read write ioctl
 2. 常用文件目录：
@@ -215,4 +218,9 @@ fclose(ftpr) 会隐性调用fflush()，所以不用额外调用
 ```c
 int fseek(FILE* STREAM, long int offset, int whence);
 //对应lseek(),成功返回0，失败返回-1，失败时设置errno指出错误
+```
+
+
+```c
+printf("如果对您有用，欢迎随手点个赞");
 ```
