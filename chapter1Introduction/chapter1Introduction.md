@@ -1,4 +1,6 @@
 # Introduction
+### 代码请看过来
+[github欢迎点个 star](https://github.com/HannanKan/Linux_C_tutorials/tree/master/chapter1Introduction)
 ## Unix, Linux, GNU
 ...
 
@@ -61,6 +63,7 @@
     2. info gcc
 
 
-
-
+```c
+printf("如果对您有用，欢迎随手点个赞");
+```
 
