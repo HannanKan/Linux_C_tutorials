@@ -1,0 +1,19 @@
+#!/bin/bash
+##set -v 执行代码前，回显代码
+trap 'echo Exiting: critical variable = $critical_variable' EXIT
+
+unset foo
+echo ${foo:-bar}
+
+foo=fud
+echo ${foo:-bar}
+
+foo=/usr/bin/X11/startx
+echo ${foo#*/}
+echo ${foo##*/}
+
+bar=/usr/local/etc/local/networks
+echo ${bar%local*}
+echo ${bar%%local*}
+
+exit 0
