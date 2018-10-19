@@ -260,7 +260,117 @@ gets() 从标准输入读取，放到s中，丢弃遇到的换行符，在接收
 
 
 ## 格式化输入和输出
+```c
+#include<stdio.h>
+int printf(const char* format,...); //// 输出到标准输出，返回输出字符个数
+int sprintf(char* s,const char* format,...); /// 输出到字符串 s，在结尾加上 \0,注意s长度
+int fprintf(FILE* stream, const char* format,...); /// 输出到文件stream
+```
+### 格式控制符
+|格式控制符|含义|助记|
+|-----|------|------|
+|%d 或者 %i |十进制输出整数|decimal，int|
+|%hd|十进制输出 short int||
+|%ld|十进制输出 长整数|long double|
+|%o |八进制输出整数|Octal|
+|%x| 十六进制输出整数|hex|
+|%c|一个字符|character|
+|%s|字符串|string|
+|%f|单进度浮点数|float|
+|%e|科学计数法输出 双进度| |
+|%g 或者 %lf|通用格式输出双进度| giant, long float|
+|%10s|右对齐输出10个长度的字符串，不够补空格，超过10个不会截断|
+|%-10s|左对齐输出10个长度字符串，空格来补，超过10个不会截断|
+|%10d 或者%-10d|同上|
+|%010d|存在空格就在前面补0|
+|%10.4f|总共长度为10,4位小数，一个小数点|
+|%%|输出一个%|
 
+如果使用gcc 进行编译， 加 -Wformat 进行警告
+
+### 格式化输入与格式化输出类似
+```c
+#include<stdio.h>
+scanf(const char* format,...);
+sscanf(char* s,const char* format,...);
+fscanf(FILE* stream, const char* format,...);
+
+// 使用实例
+int num;
+char s[100];
+scanf("hello %d",&num);//&num 需要变量地址，而非变量
+scanf("hello %s",s);
+```
+scanf 中特别的控制
+%[],读取一个字符集合
+```c
+scanf("%[,]",&s);//只能读取 含 逗号的字符串
+scanf("%[^,]",&s);//只能读取逗号以外的所有字符
+scanf("%[A-Z]",&S);//只能读取由大写字母组成的字符串
+```
+scanf 广受diss，因为安全性以及可理解性很低，一般用fread和fgets替代。
+分析一波scanf() 奇葩用法：
+```c
+#include<stdio.h>
+int main(){
+    char x[100];
+    char y[100];
+    char z[100];
+    printf("scanf(\" %%[,]\",x)\n");
+    scanf("%[,]",x);
+    printf("scanf(\" %%[^,]\",y)\n");
+    scanf("%[^,]",y);
+    printf("scanf(\" %%[A-Z]\",z)\n");
+    scanf("%[A-Z]",z);
+    printf("x is %s\ny is %s\nz is %s\n",x,y,z);
+    return 0;
+}
+```
+键盘输入（行末回车用\n表示）：
+```bash
+,,,,\n
+afada,ABCD
+FALDFK
+```
+那么x，y，z分别时什么呢？
+x=",,,,"
+y="\nafada"
+z=""
+why？
+x容易理解，y由于只是不读入逗号，所以会读入上一行的回车，遇到第二行的逗号之后结束（注意，此时逗号并没有被抛弃，而是留在了缓冲区），z读取时遇到逗号自然结束并且为空。
+事实上，在这里，z永远为空。why：因为y输入以遇到逗号结束，否则y会一直读取，而当遇到逗号之后y不会读取，逗号会被z读取，而z只能读取A-Z，因此z为空
+
+### 其他流函数
+fgetpos(): 获取当前流读/写位置
+fsetpos()：设置当前流读/写位置
+freopen(): 重新使用一个文件流
+setvbuf(): 设置文件流的缓冲机制
+
+### 查看c代码执行时间
+
+```bash
+TIMEFORMAT="" time ./executable
+```
+
+###文件流错误
+```c
+#include<errno.h>
+extern int errno;
+int ferror(FILE* stream);//文件流发生错误时，返回非零值
+int feof(FILE*stream);//文件指针到达末尾时，返回非零值，否则返回0
+void clearerr(FILE*stream);//清除原有的errno
+
+if(feof(stream))
+    // we are at the end
+```
+
+### 文件描述符，和文件流
+文件描述符属于底层概念，文件流属于高层（库）概念。由于缓存机制，最好两者不要混用
+```c
+#include<stdio.h>
+int fileno(FILE* stream);//返回stream对应的文件描述符
+FILE* fdopen(int fildes,const char*mode);//利用一个已经打开的文件描述符创建一个新的文件流，提供stdio的缓冲区
+```
 
 ```c
 printf("如果对您有用，欢迎随手点个赞");
